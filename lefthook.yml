@@ -1,0 +1,17 @@
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: pnpm exec commitlint --edit {1}
+
+pre-commit:
+  jobs:
+    - name: biome
+      run: pnpm exec biome check --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+
+# Fast checks only; tests, cargo-deny and the dependency rule run in CI.
+pre-push:
+  jobs:
+    - name: rustfmt
+      run: cargo fmt --all --check
+    - name: clippy
+      run: cargo clippy --workspace --all-targets -- -D warnings

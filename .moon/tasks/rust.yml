@@ -1,0 +1,36 @@
+$schema: '../cache/schemas/tasks.json'
+
+inheritedBy:
+  toolchain: 'rust'
+
+# Never declare target/ as an output: Cargo owns its own build cache.
+fileGroups:
+  rust:
+    - 'src/**/*'
+    - 'tests/**/*'
+    - 'benches/**/*'
+    - 'Cargo.toml'
+    - '/Cargo.toml'
+    - '/Cargo.lock'
+    - '/rust-toolchain.toml'
+
+tasks:
+  fmt:
+    command: 'cargo fmt --check -p $project'
+    inputs: ['@group(rust)', '/rustfmt.toml']
+  clippy:
+    command: 'cargo clippy -p $project --all-targets -- -D warnings'
+    inputs: ['@group(rust)', '/clippy.toml']
+  test:
+    # nextest does not run doctests, so they follow in a second pass.
+    script: 'cargo nextest run -p $project --no-tests=pass && cargo test --doc -p $project'
+    inputs: ['@group(rust)', '/.config/nextest.toml']
+  deny:
+    # Checks the whole dependency graph against /deny.toml, found from the root only.
+    command: 'cargo deny check'
+    inputs: ['@group(rust)', '/deny.toml']
+    options:
+      runFromWorkspaceRoot: true
+  dependency-rule:
+    command: 'bash $workspaceRoot/scripts/check-dependency-rule.sh $project'
+    inputs: ['@group(rust)', '/scripts/check-dependency-rule.sh']

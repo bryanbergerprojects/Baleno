@@ -1,0 +1,21 @@
+$schema: './cache/schemas/toolchains.json'
+
+# Node.js and pnpm versions come from .prototools (versionFromPrototools is on
+# by default); the Rust channel comes from rust-toolchain.toml through rustup.
+
+javascript:
+  packageManager: 'pnpm'
+  # Pinned by hand in package.json: moon sync does not write it (moon #2163).
+  syncPackageManagerField: false
+
+node: {}
+
+pnpm: {}
+
+rust:
+  # Installed with cargo-binstall; a binary already present in the global
+  # Cargo folder keeps its version, so only CI guarantees these pins.
+  bins:
+    - 'cargo-nextest@0.9.146'
+    - 'cargo-deny@0.20.2'
+  binstallVersion: '1.25.1'

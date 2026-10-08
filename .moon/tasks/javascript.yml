@@ -1,0 +1,17 @@
+$schema: '../cache/schemas/tasks.json'
+
+inheritedBy:
+  toolchain: 'javascript'
+
+fileGroups:
+  biome:
+    - '**/*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc,css}'
+    - '/biome.json'
+
+tasks:
+  format:
+    command: 'biome format .'
+    inputs: ['@group(biome)']
+  lint:
+    command: 'biome lint .'
+    inputs: ['@group(biome)']

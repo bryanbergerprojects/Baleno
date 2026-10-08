@@ -1,0 +1,10 @@
+$schema: './cache/schemas/workspace.json'
+
+projects:
+  - 'apps/*'
+  - 'packages/*'
+  # One project per Cargo crate; manifest globs need moon >= 2.5.
+  - 'crates/*/Cargo.toml'
+
+vcs:
+  defaultBranch: 'main'
