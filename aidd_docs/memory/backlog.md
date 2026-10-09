@@ -41,6 +41,7 @@ flowchart TB
 
 - Priority: Project field `Priority`, `P0` (highest) to `P2`.
 - Estimation: Project field `Size`, `XS` to `XL`.
+- Roadmap: GitHub Milestones `M<n> · <name>`, in order, no due date; each issue belongs to one milestone. `M0` to `M6 · Release v0.1.0` reach v0.1.0.
 
 ## Relations
 
